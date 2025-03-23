@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥 Insta Reels Downloader | JavaScript</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: #0f0f0f;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 30px;
+      background: linear-gradient(135deg, #1a1a1a, #333333);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+      border-radius: 10px;
+      transition: 0.5s;
+    }
+
+    .container:hover {
+      box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+    }
+
+    h2 {
+      font-size: 26px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #00ffcc, #00aaff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    input[type="text"], button {
+      width: 80%;
+      padding: 12px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    input[type="text"] {
+      background: #222;
+      color: white;
+      border: 1px solid cyan;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      border-color: #00ffcc;
+      box-shadow: 0 0 10px #00ffcc;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00ffcc, #0099ff);
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #0099ff, #00ffcc);
+      box-shadow: 0 0 15px cyan;
+    }
+
+    .video-container {
+      margin-top: 20px;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px cyan;
+    }
+
+    .download-btn, .join-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: linear-gradient(90deg, #ff00ff, #ff0099);
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .download-btn:hover, .join-btn:hover {
+      background: linear-gradient(90deg, #ff0099, #ff00ff);
+      box-shadow: 0 0 15px magenta;
+    }
+
+    .error {
+      color: #ff5555;
+      font-size: 18px;
+    }
+    
+    .loading {
+      color: yellow;
+      font-size: 20px;
+      font-weight: bold;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.5; }
+    }
+
+  </style>
+
+  <script>
+    function downloadVideo() {
+      const url = document.getElementById("reelUrl").value;
+      if (!url) {
+        alert("⚠️ Please enter a valid Instagram Reel URL!");
+        return;
+      }
+
+      // Show "Loading" message
+      document.getElementById("videoContainer").innerHTML = `<h2 class="loading">⏳ Please wait, download in progress...</h2>`;
+
+      const apiUrl = `https://ig.inr.workers.dev/?url=${encodeURIComponent(url)}`;
+      
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            document.getElementById("videoContainer").innerHTML = `
+              <h2>🎥 Video Preview</h2>
+              <video controls><source src="${data.url}" type="video/mp4"></video>
+              <br>
+              <a class="download-btn" href="${data.url}&dl=1" download onclick="redirectToTelegram()">⬇️ Download Video</a>
+            `;
+          } else {
+            document.getElementById("videoContainer").innerHTML = `<div class="error">❌ ${data.msg || "Internal server error!"}</div>`;
+          }
+        })
+        .catch(error => {
+          document.getElementById("videoContainer").innerHTML = `<div class="error">❌ Error fetching video!</div>`;
+          console.error(error);
+        });
+    }
+
+    function redirectToTelegram() {
+      setTimeout(function() {
+        window.location.href = "https://t.me/Dailyfreeearmig";
+      }, 4000); // Redirect after 5 seconds
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>🔥 Insta Reels Downloader</h2>
+    <input type="text" id="reelUrl" placeholder="Paste Instagram Reel URL">
+    <button onclick="downloadVideo()">Download Now 🚀</button>
+
+    <div id="videoContainer"></div>
+    
+    <a href="https://t.me/Dailyfreeearmig" class="join-btn">🔗 Join Our Telegram</a>
+  </div>
+</body>
+</html>
